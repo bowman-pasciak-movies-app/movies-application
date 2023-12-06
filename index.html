@@ -15,14 +15,33 @@
     <div>
         <p>Movies</p>
     </div>
-
 </header>
 
 <main class="container">
 
-    <section id="messages"></section>
-
     <section id="rendered-movies"></section>
+
+    <form id="add-movie-form">
+        <div class="">
+            <label for="title" class="form-label">Movie Title</label>
+            <input required type="text" class="form-control" id="title" aria-describedby="title">
+        </div>
+        <div class="">
+            <select required id="rating" class="form-select" aria-label="Movie Rating">
+                <option value="" selected>Choose a movie stars rating</option>
+                <option value="1">☆</option>
+                <option value="2">☆☆</option>
+                <option value="3">☆☆☆</option>
+                <option value="4">☆☆☆☆</option>
+                <option value="5">☆☆☆☆☆</option>
+            </select>
+        </div>
+        <div class="">
+            <textarea required class="form-control" placeholder="Enter the movie summary here..." id="movieSummary"></textarea>
+            <label for="movieSummary">Comments</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Movie</button>
+    </form>
 
 </main>
 

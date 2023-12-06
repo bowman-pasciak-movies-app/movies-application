@@ -1,12 +1,11 @@
 "use strict";
 
-(()=>{
-
-    console.log("Javascript started...");
-
+import {getAllMovies} from "./movies-api.js";
+(async ()=>{
 
 
-
+    let allMovies = await getAllMovies();
+    console.log(allMovies);
 
 
 })();

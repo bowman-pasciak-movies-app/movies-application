@@ -4,6 +4,29 @@ import {getAllMovies, createMovie} from "./movies-api.js";
 
 (async () => {
 
+    let moviesContainerElement = document.querySelector("#rendered-movies");
+
+    let addMovieForm = document.querySelector("#add-movie-form");
+    addMovieForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        let movie = {
+            title: addMovieForm.title.value.trim(),
+            rating: Number(addMovieForm.rating.value),
+            movieSummary: addMovieForm.movieSummary.value.trim()
+        };
+
+        await createMovie(movie);
+        await updateShownMovies();
+
+    });
+
+    async function updateShownMovies() {
+        moviesContainerElement.innerHTML = "<h1 class=`loading`>Loading...</h1>";
+        let allMovies = await getAllMovies();
+        renderMovies(allMovies);
+    }
+
     function renderMovie(movie) {
         let template = `
         <div class="card">
@@ -20,15 +43,10 @@ import {getAllMovies, createMovie} from "./movies-api.js";
         let elementHTML = "";
         for (let i = 0; i < allMovies.length; i++) {
             elementHTML += renderMovie(allMovies[i]);
-
         }
-        document.querySelector("#rendered-movies").innerHTML = elementHTML;
+        moviesContainerElement.innerHTML = elementHTML;
     }
 
-
-    let allMovies = await getAllMovies();
-    renderMovies(allMovies);
-
-
+    await updateShownMovies();
 
 })();

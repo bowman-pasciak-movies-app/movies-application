@@ -1,6 +1,6 @@
 "use strict";
 
-import {getAllMovies, createMovie} from "./movies-api.js";
+import {getAllMovies, createMovie, editMovie, getMovieById} from "./movies-api.js";
 
 (async () => {
 
@@ -21,30 +21,60 @@ import {getAllMovies, createMovie} from "./movies-api.js";
 
     });
 
+
     async function updateShownMovies() {
         moviesContainerElement.innerHTML = "<h1 class=`loading`>Loading...</h1>";
         let allMovies = await getAllMovies();
         renderMovies(allMovies);
     }
 
+    async function editMovieForm (id){
+        document.getElementById("id").value = id;
+        let selectedMovie = await getMovieById(id);
+        document.getElementById("title").value = selectedMovie.title;
+        document.getElementById("rating").value = selectedMovie.rating;
+        document.getElementById("movieSummary").value = selectedMovie.movieSummary;
+        document.getElementById("formButton").innerText = "Save Changes";
+    }
     function renderMovie(movie) {
-        let template = `
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">${movie.title}</h5>
-                <p class="card-text">${movie.rating}</p>
-                <p class="card-text">${movie.movieSummary}</p>
-            </div>
-        </div>`;
-        return template;
+
+        let card = document.createElement("div");
+        let cardBody = document.createElement("div");
+        let cardTitle = document.createElement("h5");
+        let cardRating = document.createElement("p");
+        let cardSummary = document.createElement("p");
+        let cardBtn = document.createElement("button");
+        card.classList.add("card");
+        cardBody.classList.add("card-body");
+        cardTitle.classList.add("card-title");
+        cardRating.classList.add("card-text");
+        cardSummary.classList.add("card-text");
+        cardBtn.classList.add("btn");
+
+        cardTitle.innerText = movie.title;
+        cardRating.innerText = movie.rating;
+        cardSummary.innerText = movie.movieSummary;
+        cardBtn.innerText = "Edit"
+        cardBtn.addEventListener("click", (e) => {
+            editMovieForm(movie.id);
+        })
+
+        cardBody.appendChild(cardTitle)
+        cardBody.appendChild(cardRating)
+        cardBody.appendChild(cardSummary)
+        cardBody.appendChild(cardBtn)
+        card.appendChild(cardBody);
+
+
+        return card;
     }
 
     function renderMovies(allMovies) {
-        let elementHTML = "";
+        moviesContainerElement.innerHTML = "";
         for (let i = 0; i < allMovies.length; i++) {
-            elementHTML += renderMovie(allMovies[i]);
+            moviesContainerElement.appendChild(renderMovie(allMovies[i]));
         }
-        moviesContainerElement.innerHTML = elementHTML;
+
     }
 
     await updateShownMovies();

@@ -5,6 +5,12 @@
       "title": "Shrek",
       "rating": 5,
       "movieSummary": "An ogre finds love"
+    },
+    {
+      "title": "Shrek 2",
+      "rating": 5,
+      "movieSummary": "An ogre finds love",
+      "id": 2
     }
   ]
 }

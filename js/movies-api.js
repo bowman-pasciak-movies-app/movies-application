@@ -29,9 +29,9 @@ export async function createMovie(movie) {
     }
 }
 
-export async function updateMovie(id, movie) {
+export async function updateMovieById(id, movie) {
     try {
-        const url = `http://localhost:3000/books/${id}`;
+        const url = `http://localhost:3000/movies/${id}`;
         const options = {
             method: "PATCH",
             headers: {
@@ -54,6 +54,19 @@ export async function getMovieById(id) {
 
         // Return the movies array
         return await moviesResponse.json();
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export async function deleteMovieById(id) {
+    try {
+        const url = `http://localhost:3000/movies/${id}`;
+        const options = {
+            method: 'DELETE'
+        };
+        const response = await fetch(url, options);
+        return await response.json();
     } catch (error) {
         console.error(error);
     }

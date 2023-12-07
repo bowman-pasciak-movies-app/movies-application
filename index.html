@@ -18,44 +18,72 @@
         <p>Movies</p>
     </div>
 </header>
+
 <section id="messages">
     <div id="liveAlertPlaceholder"></div>
 </section>
-<main class="container">
+
+<main class="container-fluid">
 
     <div class="row">
-        <div class="col">
-            <form id="add-movie-form" class="bg-light p-2">
-                <input type="hidden" id="id" value="">
-                <div class="form-control-wrapper">
-                    <label for="title" class="form-label">Movie Title</label>
-                    <input required type="text" class="form-control" id="title" aria-describedby="title">
+        <div class="col-4">
+            <div class="row">
+                <div class="col">
+                    <form id="add-movie-form" class="bg-light p-2">
+                        <input type="hidden" id="id" value="">
+                        <div class="form-control-wrapper">
+                            <label for="title" class="form-label">Movie Title</label>
+                            <input required type="text" class="form-control" id="title" aria-describedby="title">
+                        </div>
+                        <div class="form-control-wrapper">
+                            <select required id="genre" class="form-select" aria-label="Movie Genre">
+                                <option selected value="">Please Choose a Genre</option>
+                                <option value="action">Action</option>
+                                <option value="comedy">Comedy</option>
+                                <option value="drama">Drama</option>
+                                <option value="horror">Horror</option>
+                                <option value="scifi">Science Fiction</option>
+                                <option value="romance">Romance</option>
+                                <option value="animation">Animation</option>
+                                <option value="fantasy">Fantasy</option>
+                                <option value="thriller">Thriller</option>
+                                <option value="documentary">Documentary</option>
+                            </select>
+                        </div>
+                        <div class="form-control-wrapper">
+                            <select required id="rating" class="form-select" aria-label="Movie Rating">
+                                <option value="" selected>Choose a movie stars rating</option>
+                                <option value="1">☆</option>
+                                <option value="2">☆☆</option>
+                                <option value="3">☆☆☆</option>
+                                <option value="4">☆☆☆☆</option>
+                                <option value="5">☆☆☆☆☆</option>
+                            </select>
+                        </div>
+                        <div class="form-control-wrapper">
+                            <label for="movieSummary">Movie Summary</label>
+                            <textarea required class="form-control" placeholder="Enter the movie summary here..."
+                                      id="movieSummary"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="formButton">Add Movie</button>
+                    </form>
                 </div>
-                <div class="form-control-wrapper">
-                    <select required id="rating" class="form-select" aria-label="Movie Rating">
-                        <option value="" selected>Choose a movie stars rating</option>
-                        <option value="1">☆</option>
-                        <option value="2">☆☆</option>
-                        <option value="3">☆☆☆</option>
-                        <option value="4">☆☆☆☆</option>
-                        <option value="5">☆☆☆☆☆</option>
-                    </select>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="row">
+                <section class="sort-commands">
+                    <button id="sort-by-title" class="btn btn-primary">Sort by Title</button>
+                    <button id="sort-by-genre" class="btn btn-primary">Sort by Genre</button>
+                    <button id="sort-by-rating" class="btn btn-primary">Sort by Rating</button>
+                </section>
+                <div class="col p-2">
+                    <section id="rendered-movies" class="row flex-wrap g-2 justify-content-evenly"></section>
                 </div>
-                <div class="form-control-wrapper">
-                    <label for="movieSummary">Movie Summary</label>
-                    <textarea required class="form-control" placeholder="Enter the movie summary here..."
-                              id="movieSummary"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary" id="formButton">Add Movie</button>
-            </form>
+            </div>
+        </div>
+    </div>
 
-        </div>
-    </div>
-    <div class="row">
-        <div class="col p-2">
-            <section id="rendered-movies" class="row flex-wrap g-2 justify-content-evenly"></section>
-        </div>
-    </div>
 
 </main>
 

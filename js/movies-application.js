@@ -11,6 +11,30 @@ import {
 
 (() => {
 
+    let currentSortOrder = "title";
+
+    let sortByTitleButton = document.querySelector("#sort-by-title");
+    let sortByRatingButton = document.querySelector("#sort-by-rating");
+    let sortByGenreButton = document.querySelector("#sort-by-genre");
+
+    sortByTitleButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        currentSortOrder = "title";
+        updateShownMovies();
+    });
+
+    sortByRatingButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        currentSortOrder = "rating";
+        updateShownMovies();
+    });
+
+    sortByGenreButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        currentSortOrder = "genre";
+        updateShownMovies();
+    });
+
     let moviesContainerElement = document.querySelector("#rendered-movies");
 
     let addMovieForm = document.querySelector("#add-movie-form");
@@ -18,9 +42,15 @@ import {
     addMovieForm.addEventListener("submit", function (e) {
         e.preventDefault();
         if (addMovieForm.id.value !== "") {
-            updateMovie();
+            updateMovie()
+                .then(() => {
+                    appendAlert('Movie updated successfully!', 'success');
+                })
         } else {
-            addMovie();
+            addMovie()
+                .then((result) => {
+                    appendAlert('Movie added successfully!', 'success');
+                })
         }
     });
 
@@ -28,7 +58,8 @@ import {
         let movie = {
             title: addMovieForm.title.value.trim(),
             rating: Number(addMovieForm.rating.value),
-            movieSummary: addMovieForm.movieSummary.value.trim()
+            movieSummary: addMovieForm.movieSummary.value.trim(),
+            genre: addMovieForm.genre.value.trim()
         };
 
         // this should be done on Add and on Update - need to add image property to dataset
@@ -55,10 +86,11 @@ import {
     }
 
     function updateMovieJson(id, movie) {
-        updateMovieById(id, movie)
+        return updateMovieById(id, movie)
             .then(() => {
                 resetMovieForm();
                 updateShownMovies();
+                return true;
             })
             .catch(() => {
                 appendAlert(`Could not update movie with id ${id}!`, 'danger');
@@ -70,9 +102,10 @@ import {
         let movie = {
             title: addMovieForm.title.value.trim(),
             rating: Number(addMovieForm.rating.value),
-            movieSummary: addMovieForm.movieSummary.value.trim()
+            movieSummary: addMovieForm.movieSummary.value.trim(),
+            genre: addMovieForm.genre.value.trim()
         };
-        getOmdbDataByTitle(movie.title)
+        return getOmdbDataByTitle(movie.title)
             .then((omdbResponse) => {
                 if (!omdbResponse) {
                     movie.image = "images/defaultPoster.svg";
@@ -83,7 +116,7 @@ import {
                     console.log(movie.image);
                     movie.image = "images/defaultPoster.svg";
                 }
-                updateMovieJson(id, movie);
+                return updateMovieJson(id, movie);
             })
 
     }
@@ -107,6 +140,7 @@ import {
 
     function resetMovieForm() {
         addMovieForm.reset();
+        document.getElementById("formButton").innerText = "Add Movie";
     }
 
     function onEditMovie(id) {
@@ -116,6 +150,7 @@ import {
                 document.getElementById("title").value = selectedMovie.title;
                 document.getElementById("rating").value = selectedMovie.rating;
                 document.getElementById("movieSummary").value = selectedMovie.movieSummary;
+                document.getElementById("genre").value = selectedMovie.genre;
                 document.getElementById("formButton").innerText = "Save Changes";
             })
             .catch(() => {
@@ -193,7 +228,39 @@ import {
     }
 
     function renderMovies(allMovies) {
+
+        switch (currentSortOrder) {
+            case "title":
+                allMovies.sort((a, b) => {
+                    if (a.title.toLowerCase() < b.title.toLowerCase()) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                });
+                break;
+            case "rating":
+                allMovies.sort((a, b) => {
+                    if (a.rating > b.rating) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                });
+                break;
+            case "genre":
+                allMovies.sort((a, b) => {
+                    if (a?.genre?.toLowerCase() < b?.genre?.toLowerCase()) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                });
+                break;
+        }
+
         moviesContainerElement.innerHTML = "";
+
         for (let i = 0; i < allMovies.length; i++) {
             moviesContainerElement.appendChild(renderMovie(allMovies[i]));
         }

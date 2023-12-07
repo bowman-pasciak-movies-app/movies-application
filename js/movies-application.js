@@ -191,8 +191,9 @@ import {
         let editMovieBtn = document.createElement("button");
         let deleteMovieBtn = document.createElement("button");
         let cardImg = document.createElement("img");
+        let cardGenre = document.createElement("p");
 
-        card.classList.add("card", "col-4", "m-1", "col-md-2");
+        card.classList.add("card", "col-4", "m-1", "col-md-3");
         cardBody.classList.add("card-body");
         cardTitle.classList.add("card-title");
         cardRating.classList.add("card-text");
@@ -200,24 +201,29 @@ import {
         editMovieBtn.classList.add("btn");
         deleteMovieBtn.classList.add("btn");
         cardImg.classList.add("card-img-top");
+        cardGenre.classList.add("card-text");
 
         cardTitle.innerText = movie.title;
+        cardGenre.innerText = movie?.genre || "Unknown";
         cardRating.innerHTML = generateMovieRating(movie.rating);
         cardSummary.innerText = movie.movieSummary;
-        editMovieBtn.innerText = "Edit";
-        deleteMovieBtn.innerText = "Delete";
+        editMovieBtn.innerHTML = `<i title="Edit" class="bi bi-pencil"></i>`;
+        deleteMovieBtn.innerHTML = `<i title="Delete" class="bi bi-trash"></i>`;
         cardImg.src = movie.image;
 
         editMovieBtn.addEventListener("click", (e) => {
             onEditMovie(movie.id);
         })
         deleteMovieBtn.addEventListener("click", (e) => {
+            if (confirm("Are you sure you want to delete this item") === true) {
             onDeleteMovie(movie.id);
+            }
         })
 
 
         cardBody.appendChild(cardImg);
         cardBody.appendChild(cardTitle);
+        cardBody.appendChild(cardGenre);
         cardBody.appendChild(cardRating);
         cardBody.appendChild(cardSummary);
         cardBody.appendChild(editMovieBtn);

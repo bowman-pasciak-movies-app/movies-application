@@ -1,4 +1,20 @@
 //movies-api.js
+
+import OMDB_API_KEY from "./keys.js"
+
+export async function getOmdbDataByTitle(title) {
+    try {
+        // Get all the movies
+        const omdbUrl = 'http://www.omdbapi.com/?t=' + title + '&apikey=' + OMDB_API_KEY;
+        const omdbResponse = await fetch(omdbUrl);
+
+        // Return the movies array
+        return await omdbResponse.json();
+    } catch (error) {
+        throw new Error(`Failed to retrieve omdb information for movie by title ${title}!`);
+    }
+}
+
 export async function getAllMovies() {
     try {
         // Get all the movies

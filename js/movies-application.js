@@ -1,6 +1,13 @@
 "use strict";
 
-import {getAllMovies, createMovie, updateMovieById, getMovieById, deleteMovieById} from "./movies-api.js";
+import {
+    getAllMovies,
+    createMovie,
+    updateMovieById,
+    getMovieById,
+    deleteMovieById,
+    getOmdbDataByTitle
+} from "./movies-api.js";
 
 (() => {
 
@@ -17,12 +24,17 @@ import {getAllMovies, createMovie, updateMovieById, getMovieById, deleteMovieByI
         }
     });
 
-    function addMovie() {
+    async function addMovie() {
         let movie = {
             title: addMovieForm.title.value.trim(),
             rating: Number(addMovieForm.rating.value),
             movieSummary: addMovieForm.movieSummary.value.trim()
         };
+
+        // this should be done on Add and on Update - need to add image property to dataset
+        let omdbResponse = await getOmdbDataByTitle(movie.title);
+        console.log(omdbResponse);
+
         createMovie(movie)
             .then(() => {
                 resetMovieForm();

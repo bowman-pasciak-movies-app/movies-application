@@ -41,6 +41,12 @@
       "rating": 1,
       "movieSummary": "wrap",
       "id": 8
+    },
+    {
+      "title": "Lord of the rings",
+      "rating": 2,
+      "movieSummary": "Summary",
+      "id": 9
     }
   ]
 }

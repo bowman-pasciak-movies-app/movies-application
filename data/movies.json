@@ -2,9 +2,9 @@
   "movies": [
     {
       "id": 1,
-      "title": "Shrek",
-      "rating": 5,
-      "movieSummary": "An ogre finds love"
+      "title": "Shrek 2",
+      "rating": 4,
+      "movieSummary": "An ogre fights for love."
     }
   ]
 }

@@ -1,6 +1,6 @@
 "use strict";
 
-import {getAllMovies, createMovie, updateMovie, getMovieById} from "./movies-api.js";
+import {getAllMovies, createMovie, updateMovieById, getMovieById, deleteMovieById} from "./movies-api.js";
 
 (() => {
 
@@ -10,7 +10,11 @@ import {getAllMovies, createMovie, updateMovie, getMovieById} from "./movies-api
 
     addMovieForm.addEventListener("submit", function (e) {
         e.preventDefault();
-        addMovie();
+        if (addMovieForm.id.value !== "") {
+            updateMovie();
+        } else {
+            addMovie();
+        }
     });
 
     function addMovie() {
@@ -20,6 +24,20 @@ import {getAllMovies, createMovie, updateMovie, getMovieById} from "./movies-api
             movieSummary: addMovieForm.movieSummary.value.trim()
         };
         createMovie(movie)
+            .then(() => {
+                resetMovieForm();
+                updateShownMovies();
+            });
+    }
+
+    function updateMovie() {
+        let id = Number(addMovieForm.id.value);
+        let movie = {
+            title: addMovieForm.title.value.trim(),
+            rating: Number(addMovieForm.rating.value),
+            movieSummary: addMovieForm.movieSummary.value.trim()
+        };
+        updateMovieById(id, movie)
             .then(() => {
                 resetMovieForm();
                 updateShownMovies();
@@ -48,6 +66,13 @@ import {getAllMovies, createMovie, updateMovie, getMovieById} from "./movies-api
                 document.getElementById("formButton").innerText = "Save Changes";
             });
     }
+    function onDeleteMovie(id) {
+        id = Number(id);
+        deleteMovieById(id)
+            .then(() => {
+                updateShownMovies();
+            })
+    }
 
     function renderMovie(movie) {
 
@@ -57,6 +82,7 @@ import {getAllMovies, createMovie, updateMovie, getMovieById} from "./movies-api
         let cardRating = document.createElement("p");
         let cardSummary = document.createElement("p");
         let editMovieBtn = document.createElement("button");
+        let deleteMovieBtn = document.createElement("button");
 
         card.classList.add("card");
         cardBody.classList.add("card-body");
@@ -64,20 +90,27 @@ import {getAllMovies, createMovie, updateMovie, getMovieById} from "./movies-api
         cardRating.classList.add("card-text");
         cardSummary.classList.add("card-text");
         editMovieBtn.classList.add("btn");
+        deleteMovieBtn.classList.add("btn");
 
         cardTitle.innerText = movie.title;
         cardRating.innerText = movie.rating;
         cardSummary.innerText = movie.movieSummary;
         editMovieBtn.innerText = "Edit";
+        deleteMovieBtn.innerText = "Delete";
 
         editMovieBtn.addEventListener("click", (e) => {
             onEditMovie(movie.id);
         })
+        deleteMovieBtn.addEventListener("click", (e) => {
+            onDeleteMovie(movie.id);
+        })
 
-        cardBody.appendChild(cardTitle)
-        cardBody.appendChild(cardRating)
-        cardBody.appendChild(cardSummary)
-        cardBody.appendChild(cardBtn)
+
+        cardBody.appendChild(cardTitle);
+        cardBody.appendChild(cardRating);
+        cardBody.appendChild(cardSummary);
+        cardBody.appendChild(editMovieBtn);
+        cardBody.appendChild(deleteMovieBtn);
         card.appendChild(cardBody);
 
         return card;

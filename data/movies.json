@@ -45,6 +45,13 @@
       "movieSummary": "test",
       "image": "https://m.media-amazon.com/images/M/MV5BODRkYzA4MGItODE2MC00ZjkwLWI2NDEtYzU1NzFiZGU1YzA0XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg",
       "id": 14
+    },
+    {
+      "title": "test",
+      "rating": 1,
+      "movieSummary": "test",
+      "image": "https://m.media-amazon.com/images/M/MV5BMTQwMDU5NDkxNF5BMl5BanBnXkFtZTcwMjk5OTk4OQ@@._V1_SX300.jpg",
+      "id": 15
     }
   ]
 }

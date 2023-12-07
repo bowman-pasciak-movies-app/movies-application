@@ -211,7 +211,7 @@ import {
         let cardImg = document.createElement("img");
         let cardGenre = document.createElement("p");
 
-        card.classList.add("card", "col-4", "m-1", "col-md-3");
+        card.classList.add("card", "col-4", "mx-1", "my-2", "col-md-3");
         cardBody.classList.add("card-body");
         cardTitle.classList.add("card-title");
         cardRating.classList.add("card-text");

@@ -1,5 +1,5 @@
 header {
-    background-color: #6f6f6f;
+    background-color: #3a3a3a;
     color: #fff;
     padding: 10px;
     text-align: center;
@@ -11,6 +11,30 @@ header {
 body {
     font-family: 'Rubik', sans-serif;
     font-size: 15px;
+    background-image: linear-gradient(#b0b0b0, #101010);
+
+}
+
+#add-movie-form {
+    background-color: #3a3a3a;
+    color: white;
+    padding: 2em;
+    border-radius: 20px 20px 20px;
+}
+
+#formButton {
+    background-color: #af4848;
+    border: 2px solid #333333;
+    border-radius: 5px 5px 5px;
+    box-shadow: 5px 5px #0a0a0a;
+}
+
+#formButton:hover {
+    background-color: #9b0808;
+}
+
+.card {
+    box-shadow: 5px 5px #3a3a3a;
 }
 
 .form-control-wrapper {
@@ -40,3 +64,9 @@ body {
     display: flex;
     justify-content: space-evenly;
 }
+
+.spinner-border {
+    width: 10rem;
+    height: 10rem;
+}
+

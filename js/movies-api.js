@@ -11,7 +11,7 @@ export async function getOmdbDataByTitle(title) {
         // Return the movies array
         return await omdbResponse.json();
     } catch (error) {
-        throw new Error(`Failed to retrieve omdb information for movie by title ${title}!`);
+        return null;
     }
 }
 

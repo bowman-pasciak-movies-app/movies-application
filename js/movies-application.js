@@ -32,16 +32,36 @@ import {
         };
 
         // this should be done on Add and on Update - need to add image property to dataset
-        let omdbResponse = await getOmdbDataByTitle(movie.title);
-        console.log(omdbResponse);
+        getOmdbDataByTitle(movie.title)
+            .then((omdbResponse) => {
+                if (!omdbResponse) {
+                    movie.image = "images/defaultPoster.svg";
+                } else {
+                    movie.image = omdbResponse.Poster;
+                }
+                if (movie.image === "N/A" || !movie.image) {
+                    console.log(movie.image);
+                    movie.image = "images/defaultPoster.svg";
+                }
+                createMovie(movie)
+                    .then(() => {
+                        resetMovieForm();
+                        updateShownMovies();
+                    })
+                    .catch(() => {
+                        appendAlert('Could not add movie!', 'danger');
+                    })
+            })
+    }
 
-        createMovie(movie)
+    function updateMovieJson(id, movie) {
+        updateMovieById(id, movie)
             .then(() => {
                 resetMovieForm();
                 updateShownMovies();
             })
             .catch(() => {
-                appendAlert('Could not add movie!', 'danger');
+                appendAlert(`Could not update movie with id ${id}!`, 'danger');
             })
     }
 
@@ -52,14 +72,20 @@ import {
             rating: Number(addMovieForm.rating.value),
             movieSummary: addMovieForm.movieSummary.value.trim()
         };
-        updateMovieById(id, movie)
-            .then(() => {
-                resetMovieForm();
-                updateShownMovies();
+        getOmdbDataByTitle(movie.title)
+            .then((omdbResponse) => {
+                if (!omdbResponse) {
+                    movie.image = "images/defaultPoster.svg";
+                } else {
+                    movie.image = omdbResponse.Poster;
+                }
+                if (movie.image === "N/A" || !movie.image) {
+                    console.log(movie.image);
+                    movie.image = "images/defaultPoster.svg";
+                }
+                updateMovieJson(id, movie);
             })
-            .catch(() => {
-                appendAlert(`Could not update movie with id ${id}!`, 'danger');
-            })
+
     }
 
     function updateShownMovies() {
@@ -129,20 +155,23 @@ import {
         let cardSummary = document.createElement("p");
         let editMovieBtn = document.createElement("button");
         let deleteMovieBtn = document.createElement("button");
+        let cardImg = document.createElement("img");
 
-        card.classList.add("card" , "col-4", "m-1", "col-md-2");
+        card.classList.add("card", "col-4", "m-1", "col-md-2");
         cardBody.classList.add("card-body");
         cardTitle.classList.add("card-title");
         cardRating.classList.add("card-text");
         cardSummary.classList.add("card-text");
         editMovieBtn.classList.add("btn");
         deleteMovieBtn.classList.add("btn");
+        cardImg.classList.add("card-img-top");
 
         cardTitle.innerText = movie.title;
         cardRating.innerHTML = generateMovieRating(movie.rating);
         cardSummary.innerText = movie.movieSummary;
         editMovieBtn.innerText = "Edit";
         deleteMovieBtn.innerText = "Delete";
+        cardImg.src = movie.image;
 
         editMovieBtn.addEventListener("click", (e) => {
             onEditMovie(movie.id);
@@ -152,6 +181,7 @@ import {
         })
 
 
+        cardBody.appendChild(cardImg);
         cardBody.appendChild(cardTitle);
         cardBody.appendChild(cardRating);
         cardBody.appendChild(cardSummary);

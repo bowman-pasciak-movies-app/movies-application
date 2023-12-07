@@ -4,49 +4,47 @@
       "id": 1,
       "title": "Shrek 2",
       "rating": 4,
-      "movieSummary": "An ogre fights for love."
+      "movieSummary": "An ogre fights for love.",
+      "image": "https://m.media-amazon.com/images/M/MV5BMDJhMGRjN2QtNDUxYy00NGM3LThjNGQtMmZiZTRhNjM4YzUxL2ltYWdlL2ltYWdlXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
+      "genre": "cartoon",
+      "imdbID": "tt5817168"
     },
     {
-      "title": "2",
-      "rating": 2,
-      "movieSummary": "2",
-      "id": 3
-    },
-    {
-      "title": "3",
-      "rating": 3,
-      "movieSummary": "3",
-      "id": 4
-    },
-    {
-      "title": "4",
-      "rating": 4,
-      "movieSummary": "4",
-      "id": 5
-    },
-    {
-      "title": "5",
+      "title": "Tombstoneeee 47",
       "rating": 5,
-      "movieSummary": "5",
-      "id": 6
-    },
-    {
-      "title": "tst",
-      "rating": 2,
-      "movieSummary": "line\nline\nline\nline",
-      "id": 7
-    },
-    {
-      "title": "wrap",
-      "rating": 1,
-      "movieSummary": "wrap",
-      "id": 8
+      "movieSummary": "test",
+      "id": 10,
+      "image": "images/defaultPoster.svg",
+      "genre": "action",
+      "imdbID": "tt5817168"
     },
     {
       "title": "Lord of the rings",
-      "rating": 2,
-      "movieSummary": "Summary",
-      "id": 9
+      "rating": 5,
+      "movieSummary": "yes",
+      "image": "https://m.media-amazon.com/images/M/MV5BN2EyZjM3NzUtNWUzMi00MTgxLWI0NTctMzY4M2VlOTdjZWRiXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_SX300.jpg",
+      "id": 11
+    },
+    {
+      "title": "Terminator",
+      "rating": 5,
+      "movieSummary": "test",
+      "id": 12,
+      "image": "./images/defaultPoster.svg"
+    },
+    {
+      "title": "movie not found",
+      "rating": 5,
+      "movieSummary": "test",
+      "image": "images/defaultPoster.svg",
+      "id": 13
+    },
+    {
+      "title": "Tombstone",
+      "rating": 5,
+      "movieSummary": "test",
+      "image": "https://m.media-amazon.com/images/M/MV5BODRkYzA4MGItODE2MC00ZjkwLWI2NDEtYzU1NzFiZGU1YzA0XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg",
+      "id": 14
     }
   ]
 }

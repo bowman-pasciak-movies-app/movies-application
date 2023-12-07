@@ -16,10 +16,23 @@ body {
 .form-control-wrapper {
     margin: 1em;
 }
+
 .loading {
     text-align: center;
     margin-top: 20px;
     border: 2px solid red;
+}
+
+.modal-content {
+    border: 5px solid red;
+    padding: 5px;
+}
+
+.modal-body-container {
+    overflow-y: auto;
+    border-radius: 5px;
+    border: 5px solid black;
+    height: 60dvh;
 }
 
 .sort-commands {

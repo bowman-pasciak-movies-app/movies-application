@@ -6,7 +6,8 @@ import {
     updateMovieById,
     getMovieById,
     deleteMovieById,
-    getOmdbDataByTitle
+    getOmdbDataByTitle,
+    getOmdbDataById
 } from "./movies-api.js";
 
 (() => {
@@ -54,6 +55,19 @@ import {
         }
     });
 
+    function modal(mhead, mbody) {
+        let modalHead = document.querySelector("#modalHead");
+        let modalBody = document.querySelector("#modalBody");
+        modalHead.innerText = mhead;
+        modalBody.innerHTML = mbody;
+        document.querySelector("#modal").classList.add("show");
+        document.querySelector("#modal").style.display = "block";
+        document.querySelector("#modalClose").addEventListener("click", () => {
+            document.querySelector("#modal").classList.remove("show");
+            document.querySelector('#modal').removeAttribute("style");
+        }, {once: true});
+    }
+
     async function addMovie() {
         let movie = {
             title: addMovieForm.title.value.trim(),
@@ -69,6 +83,7 @@ import {
                     movie.image = "images/defaultPoster.svg";
                 } else {
                     movie.image = omdbResponse.Poster;
+                    movie.imdbID = omdbResponse?.imdbID || null;
                 }
                 if (movie.image === "N/A" || !movie.image) {
                     console.log(movie.image);
@@ -111,6 +126,7 @@ import {
                     movie.image = "images/defaultPoster.svg";
                 } else {
                     movie.image = omdbResponse.Poster;
+                    movie.imdbID = omdbResponse?.imdbID || null;
                 }
                 if (movie.image === "N/A" || !movie.image) {
                     console.log(movie.image);
@@ -152,6 +168,7 @@ import {
                 document.getElementById("movieSummary").value = selectedMovie.movieSummary;
                 document.getElementById("genre").value = selectedMovie.genre;
                 document.getElementById("formButton").innerText = "Save Changes";
+                document.getElementById("title").focus();
             })
             .catch(() => {
                 appendAlert(`Could not get movie id# ${id}!`, 'danger');
@@ -190,6 +207,7 @@ import {
         let cardSummary = document.createElement("p");
         let editMovieBtn = document.createElement("button");
         let deleteMovieBtn = document.createElement("button");
+        let detailsBtn = document.createElement("button");
         let cardImg = document.createElement("img");
         let cardGenre = document.createElement("p");
 
@@ -200,6 +218,7 @@ import {
         cardSummary.classList.add("card-text");
         editMovieBtn.classList.add("btn");
         deleteMovieBtn.classList.add("btn");
+        detailsBtn.classList.add("btn");
         cardImg.classList.add("card-img-top");
         cardGenre.classList.add("card-text");
 
@@ -209,17 +228,35 @@ import {
         cardSummary.innerText = movie.movieSummary;
         editMovieBtn.innerHTML = `<i title="Edit" class="bi bi-pencil"></i>`;
         deleteMovieBtn.innerHTML = `<i title="Delete" class="bi bi-trash"></i>`;
+        detailsBtn.innerHTML = `<i title="Details" class="bi bi-info-circle"></i>`;
         cardImg.src = movie.image;
 
         editMovieBtn.addEventListener("click", (e) => {
             onEditMovie(movie.id);
-        })
+        });
+
         deleteMovieBtn.addEventListener("click", (e) => {
             if (confirm("Are you sure you want to delete this item") === true) {
             onDeleteMovie(movie.id);
             }
-        })
+        });
 
+        detailsBtn.addEventListener("click", (e) => {
+            let mHead = movie?.title || "No title";
+            let mBody = `searching...`;
+
+            let id = movie.imdbID;
+
+            getOmdbDataById(id)
+                .then((data)=>{
+                    if (data) {
+                        mBody = `<pre>${JSON.stringify(data)}</pre><img src="${movie.image}" alt="${movie.title} poster" class="img-fluid" style="max-height: 300px">`;
+                    } else {
+                        mBody = `No details found for ${movie?.title || ""}`;
+                    }
+                    modal(mHead, mBody);
+                })
+        });
 
         cardBody.appendChild(cardImg);
         cardBody.appendChild(cardTitle);
@@ -228,6 +265,7 @@ import {
         cardBody.appendChild(cardSummary);
         cardBody.appendChild(editMovieBtn);
         cardBody.appendChild(deleteMovieBtn);
+        cardBody.appendChild(detailsBtn);
         card.appendChild(cardBody);
 
         return card;
@@ -286,6 +324,11 @@ import {
         alertPlaceholder.append(wrapper)
     }
 
+    // // --- welcome message------------------------
+    // let mHead = "Welcome heading...";
+    // let mBody = `Welcome body...`;
+    // modal(mHead, mBody);
+    // // --- welcome message------------------------
 
     updateShownMovies();
 

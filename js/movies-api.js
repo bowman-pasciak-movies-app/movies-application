@@ -15,6 +15,19 @@ export async function getOmdbDataByTitle(title) {
     }
 }
 
+export async function getOmdbDataById(id) {
+    try {
+        // Get all the movies
+        const omdbUrl = 'http://www.omdbapi.com/?i=' + id + '&apikey=' + OMDB_API_KEY;
+        const omdbResponse = await fetch(omdbUrl);
+
+        // Return the movies array
+        return await omdbResponse.json();
+    } catch (error) {
+        return null;
+    }
+}
+
 export async function getAllMovies() {
     try {
         // Get all the movies

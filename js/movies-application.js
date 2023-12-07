@@ -27,7 +27,10 @@ import {getAllMovies, createMovie, updateMovieById, getMovieById, deleteMovieByI
             .then(() => {
                 resetMovieForm();
                 updateShownMovies();
-            });
+            })
+            .catch(() => {
+                appendAlert('Could not add movie!', 'danger');
+            })
     }
 
     function updateMovie() {
@@ -41,7 +44,10 @@ import {getAllMovies, createMovie, updateMovieById, getMovieById, deleteMovieByI
             .then(() => {
                 resetMovieForm();
                 updateShownMovies();
-            });
+            })
+            .catch(() => {
+                appendAlert(`Could not update movie with id ${id}!`, 'danger');
+            })
     }
 
     function updateShownMovies() {
@@ -49,7 +55,10 @@ import {getAllMovies, createMovie, updateMovieById, getMovieById, deleteMovieByI
         getAllMovies()
             .then((allMovies) => {
                 renderMovies(allMovies);
-            });
+            })
+            .catch(() => {
+                appendAlert('Could not update shown movies!', 'danger');
+            })
     }
 
     function resetMovieForm() {
@@ -64,13 +73,20 @@ import {getAllMovies, createMovie, updateMovieById, getMovieById, deleteMovieByI
                 document.getElementById("rating").value = selectedMovie.rating;
                 document.getElementById("movieSummary").value = selectedMovie.movieSummary;
                 document.getElementById("formButton").innerText = "Save Changes";
-            });
+            })
+            .catch(() => {
+                appendAlert(`Could not get movie id# ${id}!`, 'danger');
+            })
     }
+
     function onDeleteMovie(id) {
         id = Number(id);
         deleteMovieById(id)
             .then(() => {
                 updateShownMovies();
+            })
+            .catch(() => {
+                appendAlert(`Could not delete movie id# ${id}!`, 'danger');
             })
     }
 
@@ -135,6 +151,20 @@ import {getAllMovies, createMovie, updateMovieById, getMovieById, deleteMovieByI
         }
 
     }
+
+    const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+    const appendAlert = (message, type) => {
+        const wrapper = document.createElement('div')
+        wrapper.innerHTML = [
+            `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+            `   <div>${message}</div>`,
+            '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+            '</div>'
+        ].join('')
+
+        alertPlaceholder.append(wrapper)
+    }
+
 
     updateShownMovies();
 

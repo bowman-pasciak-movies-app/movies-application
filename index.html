@@ -25,10 +25,7 @@
 
     <div class="row">
         <div class="col">
-            <section id="rendered-movies"></section>
-        </div>
-        <div class="col">
-            <form id="add-movie-form">
+            <form id="add-movie-form" class="bg-light p-2">
                 <input type="hidden" id="id" value="">
                 <div class="form-control-wrapper">
                     <label for="title" class="form-label">Movie Title</label>
@@ -45,14 +42,19 @@
                     </select>
                 </div>
                 <div class="form-control-wrapper">
+                    <label for="movieSummary">Movie Summary</label>
                     <textarea required class="form-control" placeholder="Enter the movie summary here..."
                               id="movieSummary"></textarea>
-                    <label for="movieSummary">Comments</label>
                 </div>
                 <button type="submit" class="btn btn-primary" id="formButton">Add Movie</button>
             </form>
 
+        </div>
     </div>
+    <div class="row">
+        <div class="col p-2">
+            <section id="rendered-movies" class="row flex-wrap g-2 justify-content-evenly"></section>
+        </div>
     </div>
 
 </main>

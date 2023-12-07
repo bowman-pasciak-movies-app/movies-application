@@ -8,7 +8,7 @@ export async function getAllMovies() {
         // Return the movies array
         return await moviesResponse.json();
     } catch (error) {
-        console.error(error);
+        throw new Error("Database failed to retrieve movies!")
     }
 }
 

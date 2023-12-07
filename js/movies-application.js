@@ -51,14 +51,20 @@ import {getAllMovies, createMovie, updateMovieById, getMovieById, deleteMovieByI
     }
 
     function updateShownMovies() {
-        moviesContainerElement.innerHTML = "<h1 class=`loading`>Loading...</h1>";
+        moviesContainerElement.innerHTML = `
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>`;
         getAllMovies()
             .then((allMovies) => {
                 renderMovies(allMovies);
             })
-            .catch(() => {
-                appendAlert('Could not update shown movies!', 'danger');
-            })
+            .catch((error) => {
+                moviesContainerElement.innerHTML = "<div>Error</div>"
+                appendAlert(error.message, 'danger');
+            });
     }
 
     function resetMovieForm() {
@@ -112,7 +118,7 @@ import {getAllMovies, createMovie, updateMovieById, getMovieById, deleteMovieByI
         let editMovieBtn = document.createElement("button");
         let deleteMovieBtn = document.createElement("button");
 
-        card.classList.add("card");
+        card.classList.add("card" , "col-4", "m-1", "col-md-2");
         cardBody.classList.add("card-body");
         cardTitle.classList.add("card-title");
         cardRating.classList.add("card-text");

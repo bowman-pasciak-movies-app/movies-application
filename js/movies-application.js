@@ -74,6 +74,18 @@ import {getAllMovies, createMovie, updateMovieById, getMovieById, deleteMovieByI
             })
     }
 
+    function generateMovieRating(rating) {
+        let movieRatingHTML = "";
+        for (let i = 1; i <= 5; i++) {
+            if (i <= rating) {
+                movieRatingHTML += `<i class="bi bi-star-fill"></i>`;
+            } else {
+                movieRatingHTML += `<i class="bi bi-star"></i>`;
+            }
+        }
+        return movieRatingHTML;
+    }
+
     function renderMovie(movie) {
 
         let card = document.createElement("div");
@@ -93,7 +105,7 @@ import {getAllMovies, createMovie, updateMovieById, getMovieById, deleteMovieByI
         deleteMovieBtn.classList.add("btn");
 
         cardTitle.innerText = movie.title;
-        cardRating.innerText = movie.rating;
+        cardRating.innerHTML = generateMovieRating(movie.rating);
         cardSummary.innerText = movie.movieSummary;
         editMovieBtn.innerText = "Edit";
         deleteMovieBtn.innerText = "Delete";

@@ -5,6 +5,36 @@
       "title": "Shrek 2",
       "rating": 4,
       "movieSummary": "An ogre fights for love."
+    },
+    {
+      "title": "Title",
+      "rating": 1,
+      "movieSummary": "Summary",
+      "id": 2
+    },
+    {
+      "title": "2",
+      "rating": 2,
+      "movieSummary": "2",
+      "id": 3
+    },
+    {
+      "title": "3",
+      "rating": 3,
+      "movieSummary": "3",
+      "id": 4
+    },
+    {
+      "title": "4",
+      "rating": 4,
+      "movieSummary": "4",
+      "id": 5
+    },
+    {
+      "title": "5",
+      "rating": 5,
+      "movieSummary": "5",
+      "id": 6
     }
   ]
 }

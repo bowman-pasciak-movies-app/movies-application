@@ -29,7 +29,7 @@ export async function createMovie(movie) {
     }
 }
 
-export async function editMovie(id, movie) {
+export async function updateMovie(id, movie) {
     try {
         const url = `http://localhost:3000/books/${id}`;
         const options = {

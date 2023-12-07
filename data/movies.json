@@ -5,24 +5,6 @@
       "title": "Shrek",
       "rating": 5,
       "movieSummary": "An ogre finds love"
-    },
-    {
-      "title": "Shrek 2",
-      "rating": 5,
-      "movieSummary": "An ogre finds love",
-      "id": 2
-    },
-    {
-      "title": "test",
-      "rating": 2,
-      "movieSummary": "test",
-      "id": 3
-    },
-    {
-      "title": "Good movie",
-      "rating": 3,
-      "movieSummary": "Interesting Movie.",
-      "id": 4
     }
   ]
 }

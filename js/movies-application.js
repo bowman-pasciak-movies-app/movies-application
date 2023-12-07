@@ -1,41 +1,54 @@
 "use strict";
 
-import {getAllMovies, createMovie, editMovie, getMovieById} from "./movies-api.js";
+import {getAllMovies, createMovie, updateMovie, getMovieById} from "./movies-api.js";
 
-(async () => {
+(() => {
 
     let moviesContainerElement = document.querySelector("#rendered-movies");
 
     let addMovieForm = document.querySelector("#add-movie-form");
-    addMovieForm.addEventListener("submit", async function (e) {
-        e.preventDefault();
 
+    addMovieForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        addMovie();
+    });
+
+    function addMovie() {
         let movie = {
             title: addMovieForm.title.value.trim(),
             rating: Number(addMovieForm.rating.value),
             movieSummary: addMovieForm.movieSummary.value.trim()
         };
+        createMovie(movie)
+            .then(() => {
+                resetMovieForm();
+                updateShownMovies();
+            });
+    }
 
-        await createMovie(movie);
-        await updateShownMovies();
-
-    });
-
-
-    async function updateShownMovies() {
+    function updateShownMovies() {
         moviesContainerElement.innerHTML = "<h1 class=`loading`>Loading...</h1>";
-        let allMovies = await getAllMovies();
-        renderMovies(allMovies);
+        getAllMovies()
+            .then((allMovies) => {
+                renderMovies(allMovies);
+            });
     }
 
-    async function editMovieForm (id){
-        document.getElementById("id").value = id;
-        let selectedMovie = await getMovieById(id);
-        document.getElementById("title").value = selectedMovie.title;
-        document.getElementById("rating").value = selectedMovie.rating;
-        document.getElementById("movieSummary").value = selectedMovie.movieSummary;
-        document.getElementById("formButton").innerText = "Save Changes";
+    function resetMovieForm() {
+        addMovieForm.reset();
     }
+
+    function onEditMovie(id) {
+        document.getElementById("id").value = id;
+        getMovieById(id)
+            .then((selectedMovie) => {
+                document.getElementById("title").value = selectedMovie.title;
+                document.getElementById("rating").value = selectedMovie.rating;
+                document.getElementById("movieSummary").value = selectedMovie.movieSummary;
+                document.getElementById("formButton").innerText = "Save Changes";
+            });
+    }
+
     function renderMovie(movie) {
 
         let card = document.createElement("div");
@@ -43,20 +56,22 @@ import {getAllMovies, createMovie, editMovie, getMovieById} from "./movies-api.j
         let cardTitle = document.createElement("h5");
         let cardRating = document.createElement("p");
         let cardSummary = document.createElement("p");
-        let cardBtn = document.createElement("button");
+        let editMovieBtn = document.createElement("button");
+
         card.classList.add("card");
         cardBody.classList.add("card-body");
         cardTitle.classList.add("card-title");
         cardRating.classList.add("card-text");
         cardSummary.classList.add("card-text");
-        cardBtn.classList.add("btn");
+        editMovieBtn.classList.add("btn");
 
         cardTitle.innerText = movie.title;
         cardRating.innerText = movie.rating;
         cardSummary.innerText = movie.movieSummary;
-        cardBtn.innerText = "Edit"
-        cardBtn.addEventListener("click", (e) => {
-            editMovieForm(movie.id);
+        editMovieBtn.innerText = "Edit";
+
+        editMovieBtn.addEventListener("click", (e) => {
+            onEditMovie(movie.id);
         })
 
         cardBody.appendChild(cardTitle)
@@ -64,7 +79,6 @@ import {getAllMovies, createMovie, editMovie, getMovieById} from "./movies-api.j
         cardBody.appendChild(cardSummary)
         cardBody.appendChild(cardBtn)
         card.appendChild(cardBody);
-
 
         return card;
     }
@@ -77,6 +91,6 @@ import {getAllMovies, createMovie, editMovie, getMovieById} from "./movies-api.j
 
     }
 
-    await updateShownMovies();
+    updateShownMovies();
 
 })();

@@ -2,6 +2,7 @@
 
 import OMDB_API_KEY from "./keys.js"
 
+
 export async function getOmdbDataByTitle(title) {
     try {
         // Get all the movies

@@ -23,6 +23,7 @@ import {
     let sortByRatingButton = document.querySelector("#sort-by-rating");
     let sortByGenreButton = document.querySelector("#sort-by-genre");
     let formButton = document.querySelector("#formButton");
+    let addMovieBtn = document.querySelector("#add-movie-btn");
 
     sortByTitleButton.addEventListener("click", function (e) {
         e.preventDefault();
@@ -41,6 +42,10 @@ import {
         currentSortOrder = "genre";
         updateShownMovies();
     });
+
+    addMovieBtn.addEventListener("click", () => {
+        modalAddEdit();
+    })
 
     let moviesContainerElement = document.querySelector("#rendered-movies");
 
@@ -79,28 +84,42 @@ import {
         if (addMovieForm.id.value !== "") {
             updateMovie()
                 .then(() => {
-                    appendAlert('Movie updated successfully!', 'success');
                     formButton.removeAttribute("disabled");
+                    document.querySelector("#modal-add-edit").classList.remove("show");
+                    document.querySelector('#modal-add-edit').removeAttribute("style");
                 })
         } else {
             addMovie()
                 .then((result) => {
-                    appendAlert('Movie added successfully!', 'success');
                     formButton.removeAttribute("disabled");
+                    document.querySelector("#modal-add-edit").classList.remove("show");
+                    document.querySelector('#modal-add-edit').removeAttribute("style");
                 })
         }
     });
 
-    function modal(mhead, mbody) {
+
+
+    function modal(mhead, mbody, elements = null) {
         let modalHead = document.querySelector("#modalHead");
         let modalBody = document.querySelector("#modalBody");
         modalHead.innerText = mhead;
         modalBody.innerHTML = mbody;
+        if(elements) {modalBody.appendChild(elements)}
         document.querySelector("#modal").classList.add("show");
         document.querySelector("#modal").style.display = "block";
         document.querySelector("#modalClose").addEventListener("click", () => {
             document.querySelector("#modal").classList.remove("show");
             document.querySelector('#modal').removeAttribute("style");
+        }, {once: true});
+    }
+
+    function modalAddEdit() {
+        document.querySelector("#modal-add-edit").classList.add("show");
+        document.querySelector("#modal-add-edit").style.display = "block";
+        document.querySelector("#modal-close-add-edit").addEventListener("click", () => {
+            document.querySelector("#modal-add-edit").classList.remove("show");
+            document.querySelector('#modal-add-edit').removeAttribute("style");
         }, {once: true});
     }
 
@@ -177,7 +196,6 @@ import {
         moviesContainerElement.innerHTML = `
             <div class="d-flex justify-content-center">
                 <div class="spinner-border" role="status">
-                    <span class="visually-hidden">Loading...</span>
                 </div>
             </div>`;
         getAllMovies()
@@ -210,6 +228,8 @@ import {
 
     function onEditMovie(id) {
         document.getElementById("id").value = id;
+        document.querySelector("#spinner-form").classList.remove("d-none");
+        addMovieForm.classList.add("d-none");
         getMovieById(id)
             .then((selectedMovie) => {
                 document.getElementById("title").value = selectedMovie.title;
@@ -217,6 +237,8 @@ import {
                 document.getElementById("movieSummary").value = selectedMovie.movieSummary;
                 document.getElementById("genre").value = selectedMovie.genre;
                 document.getElementById("formButton").innerText = "Save Changes";
+                document.querySelector("#spinner-form").classList.add("d-none");
+                addMovieForm.classList.remove("d-none");
                 document.getElementById("title").focus();
             })
             .catch(() => {
@@ -282,12 +304,21 @@ import {
 
         editMovieBtn.addEventListener("click", (e) => {
             onEditMovie(movie.id);
+            modalAddEdit();
         });
 
         deleteMovieBtn.addEventListener("click", (e) => {
-            if (confirm("Are you sure you want to delete this item") === true) {
-            onDeleteMovie(movie.id);
-            }
+            let elements = document.createElement("div");
+            let btn = document.createElement("button");
+            btn.classList.add('btn', "custom-btn")
+            btn.innerText = "Ok";
+            btn.addEventListener("click", function (){
+                onDeleteMovie(movie.id);
+                document.querySelector("#modal").classList.remove("show");
+                document.querySelector('#modal').removeAttribute("style");
+            })
+            elements.appendChild(btn);
+            modal("Are you sure you want to delete this movie", movie.title, elements);
         });
 
         function generateMovieCard(movieData = {}) {

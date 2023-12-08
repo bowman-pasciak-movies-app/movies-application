@@ -15,23 +15,29 @@ body {
 
 }
 
-#add-movie-form {
+#add-movie-form, #search-movie-form {
     background-color: #3a3a3a;
     color: white;
     padding: 2em;
     border-radius: 20px 20px 20px;
 }
 
-#formButton {
+#modal .modal-content {
+    max-height: 80dvh;
+}
+
+#formButton, #add-movie-btn, .custom-btn {
     background-color: #af4848;
     border: 2px solid #333333;
     border-radius: 5px 5px 5px;
     box-shadow: 5px 5px #0a0a0a;
+    color: white;
 }
 
-#formButton:hover {
+#formButton:hover, #add-movie-btn:hover, .custom-btn:hover {
     background-color: #9b0808;
 }
+
 
 .card {
     box-shadow: 5px 5px #3a3a3a;
@@ -48,15 +54,18 @@ body {
 }
 
 .modal-content {
-    border: 5px solid red;
+    border: 5px solid #0a0a0a;
     padding: 5px;
+
+}
+
+.modal-dialog {
+    box-shadow: 10px 10px 10px rgba(19, 19, 19, 0.73);
 }
 
 .modal-body-container {
     overflow-y: auto;
     border-radius: 5px;
-    border: 5px solid black;
-    height: 60dvh;
 }
 
 .sort-commands {

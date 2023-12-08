@@ -65,6 +65,17 @@ body {
     justify-content: space-evenly;
 }
 
+.sort-commands button {
+    background-color: #af4848;
+    border: 2px solid #333333;
+    border-radius: 5px 5px 5px;
+    box-shadow: 5px 5px #0a0a0a;
+}
+
+.sort-commands button:hover {
+    background-color: #9b0808;
+}
+
 .spinner-border {
     width: 10rem;
     height: 10rem;

@@ -338,7 +338,7 @@ import {
           ${addPropertyIfPresent('Language', Language)}
           ${addPropertyIfPresent('Country', Country)}
           ${addPropertyIfPresent('Awards', Awards)}
-          ${addPropertyIfPresent('Ratings', Ratings.map(rating => `${rating.Source}: ${rating.Value}`).join(', '))}
+          ${addPropertyIfPresent('Ratings', Ratings?.map(rating => `${rating.Source}: ${rating.Value}`).join(', '))}
           ${addPropertyIfPresent('Metascore', Metascore)}
           ${addPropertyIfPresent('IMDb Rating', `${imdbRating}/10 (${imdbVotes} votes)`)}
           ${addPropertyIfPresent('Box Office', BoxOffice)}
@@ -356,7 +356,13 @@ import {
             let mHead = movie?.title || "No title";
             let mBody = `searching...`;
 
-            let id = movie.imdbID;
+            let id = movie?.imdbID;
+
+            if (!id) {
+                mBody = `No details found for ${movie?.title || ""}`;
+                modal(mHead, mBody);
+                return;
+            }
 
             getOmdbDataById(id)
                 .then((data)=>{
@@ -434,12 +440,6 @@ import {
 
         alertPlaceholder.append(wrapper)
     }
-
-    // // --- welcome message------------------------
-    // let mHead = "Welcome heading...";
-    // let mBody = `Welcome body...`;
-    // modal(mHead, mBody);
-    // // --- welcome message------------------------
 
     updateShownMovies();
 

@@ -71,6 +71,15 @@
       "image": "https://m.media-amazon.com/images/M/MV5BMDU2ZmM2OTYtNzIxYy00NjM5LTliNGQtN2JmOWQzYTBmZWUzXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_SX300.jpg",
       "imdbID": "tt12593682",
       "id": 19
+    },
+    {
+      "title": "test something",
+      "rating": 1,
+      "movieSummary": "asffasdfa",
+      "genre": "action",
+      "image": "images/defaultPoster.svg",
+      "imdbID": null,
+      "id": 20
     }
   ]
 }

@@ -241,6 +241,68 @@ import {
             }
         });
 
+        function generateMovieCard(movieData = {}) {
+            // Function to conditionally include properties in the HTML
+            function addPropertyIfPresent(propertyName, propertyValue) {
+                return propertyValue ? `<p class="card-text"><strong>${propertyName}:</strong> ${propertyValue}</p>` : '';
+            }
+
+            // Extract data from the JSON object
+            const {
+                Title,
+                Year,
+                Rated,
+                Released,
+                Runtime,
+                Genre,
+                Director,
+                Writer,
+                Actors,
+                Plot,
+                Language,
+                Country,
+                Awards,
+                Poster,
+                Ratings,
+                Metascore,
+                imdbRating,
+                imdbVotes,
+                imdbID,
+                Type,
+                DVD,
+                BoxOffice,
+                Production,
+                Website,
+                Response
+            } = movieData;
+
+            // Create HTML for the movie card with Bootstrap styles
+            const movieCardHTML = `
+      <div class="card">
+        <img id="moviePoster" src="${Poster}" class="card-img-top" alt="${Title}" onload="this.style.display='block'">
+        <div class="card-body">
+          <h5 class="card-title">${Title} (${Year})</h5>
+          ${addPropertyIfPresent('Genre', Genre)}
+          ${addPropertyIfPresent('Director', Director)}
+          ${addPropertyIfPresent('Actors', Actors)}
+          ${addPropertyIfPresent('Plot', Plot)}
+          ${addPropertyIfPresent('Language', Language)}
+          ${addPropertyIfPresent('Country', Country)}
+          ${addPropertyIfPresent('Awards', Awards)}
+          ${addPropertyIfPresent('Ratings', Ratings.map(rating => `${rating.Source}: ${rating.Value}`).join(', '))}
+          ${addPropertyIfPresent('Metascore', Metascore)}
+          ${addPropertyIfPresent('IMDb Rating', `${imdbRating}/10 (${imdbVotes} votes)`)}
+          ${addPropertyIfPresent('Box Office', BoxOffice)}
+          ${addPropertyIfPresent('DVD', DVD)}
+          ${addPropertyIfPresent('Production', Production)}
+          ${addPropertyIfPresent('Website', Website)}
+        </div>
+      </div>
+    `;
+
+            return movieCardHTML;
+        }
+
         detailsBtn.addEventListener("click", (e) => {
             let mHead = movie?.title || "No title";
             let mBody = `searching...`;
@@ -250,7 +312,7 @@ import {
             getOmdbDataById(id)
                 .then((data)=>{
                     if (data) {
-                        mBody = `<pre>${JSON.stringify(data)}</pre><img src="${movie.image}" alt="${movie.title} poster" class="img-fluid" style="max-height: 300px">`;
+                        mBody = generateMovieCard(data);
                     } else {
                         mBody = `No details found for ${movie?.title || ""}`;
                     }

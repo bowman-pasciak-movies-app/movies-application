@@ -13,10 +13,16 @@ import {
 (() => {
 
     let currentSortOrder = "title";
-
+    let searchTextElement = document.querySelector("#search-title");
+    let searchText = searchTextElement.value;
+    let searchGenreElement = document.querySelector("#search-genre");
+    let searchGenre = searchGenreElement.value;
+    let searchRatingElement = document.querySelector("#search-rating");
+    let searchRating = searchRatingElement.value;
     let sortByTitleButton = document.querySelector("#sort-by-title");
     let sortByRatingButton = document.querySelector("#sort-by-rating");
     let sortByGenreButton = document.querySelector("#sort-by-genre");
+    let formButton = document.querySelector("#formButton");
 
     sortByTitleButton.addEventListener("click", function (e) {
         e.preventDefault();
@@ -39,18 +45,48 @@ import {
     let moviesContainerElement = document.querySelector("#rendered-movies");
 
     let addMovieForm = document.querySelector("#add-movie-form");
+    let searchMovieForm = document.querySelector("#search-movie-form");
+
+    searchMovieForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        searchText = document.querySelector("#search-title").value;
+        searchGenre = document.querySelector("#search-genre").value;
+        searchRating = document.querySelector("#search-rating").value;
+        updateShownMovies()
+    })
+
+    searchGenreElement.addEventListener("change", function (e){
+        e.preventDefault();
+        searchText = document.querySelector("#search-title").value;
+        searchGenre = document.querySelector("#search-genre").value;
+        searchRating = document.querySelector("#search-rating").value;
+        updateShownMovies();
+    })
+
+    searchRatingElement.addEventListener("change", function (e){
+        e.preventDefault();
+        searchText = document.querySelector("#search-title").value;
+        searchGenre = document.querySelector("#search-genre").value;
+        searchRating = document.querySelector("#search-rating").value;
+        updateShownMovies();
+    })
+
+
 
     addMovieForm.addEventListener("submit", function (e) {
         e.preventDefault();
+        formButton.setAttribute("disabled", "true")
         if (addMovieForm.id.value !== "") {
             updateMovie()
                 .then(() => {
                     appendAlert('Movie updated successfully!', 'success');
+                    formButton.removeAttribute("disabled");
                 })
         } else {
             addMovie()
                 .then((result) => {
                     appendAlert('Movie added successfully!', 'success');
+                    formButton.removeAttribute("disabled");
                 })
         }
     });
@@ -146,7 +182,20 @@ import {
             </div>`;
         getAllMovies()
             .then((allMovies) => {
-                renderMovies(allMovies);
+                let filteredMovies = allMovies.filter((item, index) => {
+                    let isMatch = true;
+                    if(item.title.toLowerCase().indexOf(searchText.toLowerCase()) < 0){
+                        isMatch = false
+                    }
+                    if(searchGenre !== "" && item.genre !== searchGenre) {
+                        isMatch = false
+                    }
+                    if(searchRating !== "" && item.rating !== Number(searchRating)) {
+                        isMatch = false
+                    }
+                    return isMatch;
+                })
+                renderMovies(filteredMovies);
             })
             .catch((error) => {
                 moviesContainerElement.innerHTML = "<div>Error</div>"

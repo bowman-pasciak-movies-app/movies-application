@@ -243,12 +243,7 @@ import {
     }
 
     function resetMovieForm() {
-        addMovieForm.movieId.value = "";
-        addMovieForm.genre.value = "";
-        addMovieForm.movieSummary.value = "";
-        addMovieForm.rating.value = "";
-        addMovieForm.title.value = "";
-
+        addMovieForm.reset();
         document.getElementById("formButton").innerText = "Add Movie";
     }
 
@@ -516,7 +511,5 @@ import {
     }
 
     updateShownMovies();
-
-    alert("Initial Load....");
 
 })();

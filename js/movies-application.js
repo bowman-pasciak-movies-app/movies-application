@@ -43,13 +43,16 @@ import {
         updateShownMovies();
     });
 
-    addMovieBtn.addEventListener("click", () => {
+    addMovieBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        resetMovieForm();
         modalAddEdit();
     })
 
     let moviesContainerElement = document.querySelector("#rendered-movies");
 
     let addMovieForm = document.querySelector("#add-movie-form");
+
     let searchMovieForm = document.querySelector("#search-movie-form");
 
     searchMovieForm.addEventListener("submit", function (e) {
@@ -57,10 +60,10 @@ import {
         searchText = document.querySelector("#search-title").value;
         searchGenre = document.querySelector("#search-genre").value;
         searchRating = document.querySelector("#search-rating").value;
-        updateShownMovies()
+        updateShownMovies();
     })
 
-    searchGenreElement.addEventListener("change", function (e){
+    searchGenreElement.addEventListener("change", function (e) {
         e.preventDefault();
         searchText = document.querySelector("#search-title").value;
         searchGenre = document.querySelector("#search-genre").value;
@@ -68,25 +71,26 @@ import {
         updateShownMovies();
     })
 
-    searchRatingElement.addEventListener("change", function (e){
+    searchRatingElement.addEventListener("change", function (e) {
         e.preventDefault();
         searchText = document.querySelector("#search-title").value;
         searchGenre = document.querySelector("#search-genre").value;
         searchRating = document.querySelector("#search-rating").value;
         updateShownMovies();
     })
-
-
 
     addMovieForm.addEventListener("submit", function (e) {
         e.preventDefault();
         formButton.setAttribute("disabled", "true")
-        if (addMovieForm.id.value !== "") {
+        if (addMovieForm.movieId.value !== "") {
             updateMovie()
                 .then(() => {
                     formButton.removeAttribute("disabled");
                     document.querySelector("#modal-add-edit").classList.remove("show");
                     document.querySelector('#modal-add-edit').removeAttribute("style");
+                })
+                .catch((error) => {
+                    appendAlert(error.message, 'danger');
                 })
         } else {
             addMovie()
@@ -95,32 +99,35 @@ import {
                     document.querySelector("#modal-add-edit").classList.remove("show");
                     document.querySelector('#modal-add-edit').removeAttribute("style");
                 })
+                .catch((error) => {
+                    appendAlert(error.message, 'danger');
+                })
         }
     });
-
-
 
     function modal(mhead, mbody, elements = null) {
         let modalHead = document.querySelector("#modalHead");
         let modalBody = document.querySelector("#modalBody");
         modalHead.innerText = mhead;
         modalBody.innerHTML = mbody;
-        if(elements) {modalBody.appendChild(elements)}
+        if (elements) { modalBody.appendChild(elements) }
         document.querySelector("#modal").classList.add("show");
         document.querySelector("#modal").style.display = "block";
-        document.querySelector("#modalClose").addEventListener("click", () => {
+        document.querySelector("#modalClose").addEventListener("click", (e) => {
+            e.preventDefault();
             document.querySelector("#modal").classList.remove("show");
             document.querySelector('#modal').removeAttribute("style");
-        }, {once: true});
+        }, { once: true });
     }
 
     function modalAddEdit() {
         document.querySelector("#modal-add-edit").classList.add("show");
         document.querySelector("#modal-add-edit").style.display = "block";
-        document.querySelector("#modal-close-add-edit").addEventListener("click", () => {
+        document.querySelector("#modal-close-add-edit").addEventListener("click", (e) => {
+            e.preventDefault();
             document.querySelector("#modal-add-edit").classList.remove("show");
             document.querySelector('#modal-add-edit').removeAttribute("style");
-        }, {once: true});
+        }, { once: true });
     }
 
     async function addMovie() {
@@ -131,9 +138,13 @@ import {
             genre: addMovieForm.genre.value.trim()
         };
 
-        // this should be done on Add and on Update - need to add image property to dataset
-        getOmdbDataByTitle(movie.title)
+        return getOmdbDataByTitle(movie?.title || "")
             .then((omdbResponse) => {
+                console.log(omdbResponse);
+                if (omdbResponse?.Error || omdbResponse?.Response === "False") {
+                    appendAlert('Could not find movie!', 'danger');
+                    omdbResponse = null;
+                }
                 if (!omdbResponse) {
                     movie.image = "images/defaultPoster.svg";
                 } else {
@@ -144,13 +155,15 @@ import {
                     console.log(movie.image);
                     movie.image = "images/defaultPoster.svg";
                 }
-                createMovie(movie)
+                return createMovie(movie)
                     .then(() => {
                         resetMovieForm();
                         updateShownMovies();
+                        return true;
                     })
                     .catch(() => {
                         appendAlert('Could not add movie!', 'danger');
+                        return false;
                     })
             })
     }
@@ -164,11 +177,12 @@ import {
             })
             .catch(() => {
                 appendAlert(`Could not update movie with id ${id}!`, 'danger');
+                return false;
             })
     }
 
     function updateMovie() {
-        let id = Number(addMovieForm.id.value);
+        let id = Number(addMovieForm.movieId.value);
         let movie = {
             title: addMovieForm.title.value.trim(),
             rating: Number(addMovieForm.rating.value),
@@ -177,6 +191,11 @@ import {
         };
         return getOmdbDataByTitle(movie.title)
             .then((omdbResponse) => {
+                console.log(omdbResponse);
+                if (omdbResponse?.Error || omdbResponse?.Response === "False") {
+                    appendAlert('Could not find movie!', 'danger');
+                    omdbResponse = null;
+                }
                 if (!omdbResponse) {
                     movie.image = "images/defaultPoster.svg";
                 } else {
@@ -198,39 +217,46 @@ import {
                 <div class="spinner-border" role="status">
                 </div>
             </div>`;
-        getAllMovies()
+        return getAllMovies()
             .then((allMovies) => {
                 let filteredMovies = allMovies.filter((item, index) => {
                     let isMatch = true;
-                    if(item.title.toLowerCase().indexOf(searchText.toLowerCase()) < 0){
+                    if (item.title.toLowerCase().indexOf(searchText.toLowerCase()) < 0) {
                         isMatch = false
                     }
-                    if(searchGenre !== "" && item.genre !== searchGenre) {
+                    if (searchGenre !== "" && item.genre !== searchGenre) {
                         isMatch = false
                     }
-                    if(searchRating !== "" && item.rating !== Number(searchRating)) {
+                    if (searchRating !== "" && item.rating !== Number(searchRating)) {
                         isMatch = false
                     }
                     return isMatch;
                 })
                 renderMovies(filteredMovies);
+                return true;
             })
             .catch((error) => {
                 moviesContainerElement.innerHTML = "<div>Error</div>"
                 appendAlert(error.message, 'danger');
+                return false;
             });
     }
 
     function resetMovieForm() {
-        addMovieForm.reset();
+        addMovieForm.movieId.value = "";
+        addMovieForm.genre.value = "";
+        addMovieForm.movieSummary.value = "";
+        addMovieForm.rating.value = "";
+        addMovieForm.title.value = "";
+
         document.getElementById("formButton").innerText = "Add Movie";
     }
 
     function onEditMovie(id) {
-        document.getElementById("id").value = id;
+        document.getElementById("movieId").value = id;
         document.querySelector("#spinner-form").classList.remove("d-none");
         addMovieForm.classList.add("d-none");
-        getMovieById(id)
+        return getMovieById(id)
             .then((selectedMovie) => {
                 document.getElementById("title").value = selectedMovie.title;
                 document.getElementById("rating").value = selectedMovie.rating;
@@ -240,20 +266,24 @@ import {
                 document.querySelector("#spinner-form").classList.add("d-none");
                 addMovieForm.classList.remove("d-none");
                 document.getElementById("title").focus();
+                return true;
             })
             .catch(() => {
                 appendAlert(`Could not get movie id# ${id}!`, 'danger');
+                return false;
             })
     }
 
     function onDeleteMovie(id) {
         id = Number(id);
-        deleteMovieById(id)
+        return deleteMovieById(id)
             .then(() => {
                 updateShownMovies();
+                return true;
             })
             .catch(() => {
                 appendAlert(`Could not delete movie id# ${id}!`, 'danger');
+                return false;
             })
     }
 
@@ -303,16 +333,20 @@ import {
         cardImg.src = movie.image;
 
         editMovieBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            resetMovieForm();
             onEditMovie(movie.id);
             modalAddEdit();
         });
 
         deleteMovieBtn.addEventListener("click", (e) => {
+            e.preventDefault();
             let elements = document.createElement("div");
             let btn = document.createElement("button");
             btn.classList.add('btn', "custom-btn")
             btn.innerText = "Ok";
-            btn.addEventListener("click", function (){
+            btn.addEventListener("click", function (e) {
+                e.preventDefault();
                 onDeleteMovie(movie.id);
                 document.querySelector("#modal").classList.remove("show");
                 document.querySelector('#modal').removeAttribute("style");
@@ -322,12 +356,11 @@ import {
         });
 
         function generateMovieCard(movieData = {}) {
-            // Function to conditionally include properties in the HTML
+
             function addPropertyIfPresent(propertyName, propertyValue) {
                 return propertyValue ? `<p class="card-text"><strong>${propertyName}:</strong> ${propertyValue}</p>` : '';
             }
 
-            // Extract data from the JSON object
             const {
                 Title,
                 Year,
@@ -353,7 +386,6 @@ import {
                 BoxOffice,
                 Production,
                 Website,
-                Response
             } = movieData;
 
             // Create HTML for the movie card with Bootstrap styles
@@ -363,7 +395,9 @@ import {
         <div class="card-body">
           <h5 class="card-title">${Title} (${Year})</h5>
           ${addPropertyIfPresent('Genre', Genre)}
+          ${addPropertyIfPresent('Rated', Rated)}
           ${addPropertyIfPresent('Director', Director)}
+          ${addPropertyIfPresent('Writer', Writer)}
           ${addPropertyIfPresent('Actors', Actors)}
           ${addPropertyIfPresent('Plot', Plot)}
           ${addPropertyIfPresent('Language', Language)}
@@ -373,9 +407,12 @@ import {
           ${addPropertyIfPresent('Metascore', Metascore)}
           ${addPropertyIfPresent('IMDb Rating', `${imdbRating}/10 (${imdbVotes} votes)`)}
           ${addPropertyIfPresent('Box Office', BoxOffice)}
+          ${addPropertyIfPresent('Released', Released)}
           ${addPropertyIfPresent('DVD', DVD)}
           ${addPropertyIfPresent('Production', Production)}
-          ${addPropertyIfPresent('Website', Website)}
+          ${addPropertyIfPresent('Runtime', Runtime)}
+          ${addPropertyIfPresent('Type', Type)}
+          ${addPropertyIfPresent('imdbID', imdbID)}
         </div>
       </div>
     `;
@@ -384,10 +421,11 @@ import {
         }
 
         detailsBtn.addEventListener("click", (e) => {
+            e.preventDefault();
             let mHead = movie?.title || "No title";
             let mBody = `searching...`;
 
-            let id = movie?.imdbID;
+            let id = movie?.imdbID || null;
 
             if (!id) {
                 mBody = `No details found for ${movie?.title || ""}`;
@@ -396,9 +434,14 @@ import {
             }
 
             getOmdbDataById(id)
-                .then((data)=>{
-                    if (data) {
-                        mBody = generateMovieCard(data);
+                .then((omdbResponse) => {
+                    console.log(omdbResponse);
+                    if (omdbResponse?.Error || omdbResponse?.Response === "False") {
+                        appendAlert('Could not find movie!', 'danger');
+                        omdbResponse = null;
+                    }
+                    if (omdbResponse) {
+                        mBody = generateMovieCard(omdbResponse);
                     } else {
                         mBody = `No details found for ${movie?.title || ""}`;
                     }
@@ -473,5 +516,7 @@ import {
     }
 
     updateShownMovies();
+
+    alert("Initial Load....");
 
 })();

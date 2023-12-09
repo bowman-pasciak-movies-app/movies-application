@@ -1,50 +1,43 @@
-//movies-api.js
-
 import OMDB_API_KEY from "./keys.js"
 
+let urlBase = `http://localhost:3000`;
 
 export async function getOmdbDataByTitle(title) {
     try {
-        // Get all the movies
         const omdbUrl = 'http://www.omdbapi.com/?t=' + title + '&apikey=' + OMDB_API_KEY;
         const omdbResponse = await fetch(omdbUrl);
-
-        // Return the movies array
         return await omdbResponse.json();
     } catch (error) {
-        return null;
+        console.log(error);
+        return {};
     }
 }
 
 export async function getOmdbDataById(id) {
     try {
-        // Get all the movies
         const omdbUrl = 'http://www.omdbapi.com/?i=' + id + '&apikey=' + OMDB_API_KEY;
         const omdbResponse = await fetch(omdbUrl);
-
-        // Return the movies array
         return await omdbResponse.json();
     } catch (error) {
-        return null;
+        console.log(error);
+        return {};
     }
 }
 
 export async function getAllMovies() {
     try {
-        // Get all the movies
-        const moviesUrl = 'http://localhost:3000/movies';
+        const moviesUrl = `${urlBase}/movies`;
         const moviesResponse = await fetch(moviesUrl);
-
-        // Return the movies array
         return await moviesResponse.json();
     } catch (error) {
+        console.log(error);
         throw new Error("Database failed to retrieve movies!")
     }
 }
 
 export async function createMovie(movie) {
     try {
-        const url = `http://localhost:3000/movies`;
+        const url = `${urlBase}/movies`;
         const options = {
             method: "POST",
             headers: {
@@ -55,13 +48,14 @@ export async function createMovie(movie) {
         const resp = await fetch(url, options);
         return await resp.json();
     } catch (error) {
-        console.error(error);
+        console.log(error);
+        return {};
     }
 }
 
 export async function updateMovieById(id, movie) {
     try {
-        const url = `http://localhost:3000/movies/${id}`;
+        const url = `${urlBase}/movies/${id}`;
         const options = {
             method: "PATCH",
             headers: {
@@ -72,32 +66,32 @@ export async function updateMovieById(id, movie) {
         const resp = await fetch(url, options);
         return await resp.json();
     } catch (error) {
-        console.error(error);
+        console.log(error);
+        return {};
     }
 }
 
 export async function getMovieById(id) {
     try {
-        // Get all the movies
-        const moviesUrl = `http://localhost:3000/movies/${id}`;
+        const moviesUrl = `${urlBase}/movies/${id}`;
         const moviesResponse = await fetch(moviesUrl);
-
-        // Return the movies array
         return await moviesResponse.json();
     } catch (error) {
-        console.error(error);
+        console.log(error);
+        return {};
     }
 }
 
 export async function deleteMovieById(id) {
     try {
-        const url = `http://localhost:3000/movies/${id}`;
+        const url = `${urlBase}/movies/${id}`;
         const options = {
             method: 'DELETE'
         };
         const response = await fetch(url, options);
         return await response.json();
     } catch (error) {
-        console.error(error);
+        console.log(error);
+        return {};
     }
 }

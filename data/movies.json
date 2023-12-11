@@ -4,7 +4,7 @@
       "title": "Lord of the rings",
       "rating": 5,
       "genre": "drama",
-      "movieSummary": "yes",
+      "movieSummary": "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.",
       "image": "https://m.media-amazon.com/images/M/MV5BN2EyZjM3NzUtNWUzMi00MTgxLWI0NTctMzY4M2VlOTdjZWRiXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_SX300.jpg",
       "id": 11,
       "imdbID": "tt0120737"
@@ -13,7 +13,7 @@
       "title": "Tombstone",
       "rating": 5,
       "genre": "drama",
-      "movieSummary": "test",
+      "movieSummary": "A successful lawman's plans to retire anonymously in Tombstone, Arizona are disrupted by the kind of outlaws he was famous for eliminating.",
       "image": "https://m.media-amazon.com/images/M/MV5BODRkYzA4MGItODE2MC00ZjkwLWI2NDEtYzU1NzFiZGU1YzA0XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg",
       "id": 14,
       "imdbID": "tt0108358"
@@ -21,7 +21,7 @@
     {
       "title": "Speed",
       "rating": 3,
-      "movieSummary": "speed",
+      "movieSummary": "A young police officer must prevent a bomb exploding aboard a city bus by keeping its speed above 50 mph.",
       "image": "https://m.media-amazon.com/images/M/MV5BYjc0MjYyN2EtZGRhMy00NzJiLWI2Y2QtYzhiYTU3NzAxNzg4XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
       "id": 15,
       "genre": "action",
@@ -30,7 +30,7 @@
     {
       "title": "Scream",
       "rating": 1,
-      "movieSummary": "funny scary movie",
+      "movieSummary": "A year after the murder of her mother, a teenage girl is terrorized by a masked killer who targets her and her friends by using scary movies as part of a deadly game.",
       "genre": "horror",
       "image": "https://m.media-amazon.com/images/M/MV5BMjA2NjU5MTg5OF5BMl5BanBnXkFtZTgwOTkyMzQxMDE@._V1_SX300.jpg",
       "id": 16,
@@ -39,11 +39,20 @@
     {
       "title": "Star Wars",
       "rating": 5,
-      "movieSummary": "Use the force.",
+      "movieSummary": "Luke Skywalker joins forces with a Jedi Knight, a cocky pilot, a Wookiee and two droids to save the galaxy from the Empire's world-destroying battle station, while also attempting to rescue Princess Leia from the mysterious Darth ...",
       "genre": "scifi",
       "image": "https://m.media-amazon.com/images/M/MV5BOTA5NjhiOTAtZWM0ZC00MWNhLThiMzEtZDFkOTk2OTU1ZDJkXkEyXkFqcGdeQXVyMTA4NDI1NTQx._V1_SX300.jpg",
       "id": 17,
       "imdbID": "tt0076759"
+    },
+    {
+      "title": "Jaws",
+      "rating": 4,
+      "movieSummary": "When a killer shark unleashes chaos on a beach community off Cape Cod, it's up to a local sheriff, a marine biologist, and an old seafarer to hunt the beast down.",
+      "genre": "drama",
+      "image": "https://m.media-amazon.com/images/M/MV5BMmVmODY1MzEtYTMwZC00MzNhLWFkNDMtZjAwM2EwODUxZTA5XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg",
+      "imdbID": "tt0073195",
+      "id": 19
     }
   ]
 }

@@ -24,6 +24,9 @@ import {
     let sortByGenreButton = document.querySelector("#sort-by-genre");
     let formButton = document.querySelector("#formButton");
     let addMovieBtn = document.querySelector("#add-movie-btn");
+    let plotButton = document.querySelector("#plotLookUp");
+    let movieSummaryElement = document.querySelector("#movieSummary");
+    let movieTitle = document.querySelector("#title");
 
     sortByTitleButton.addEventListener("click", function (e) {
         e.preventDefault();
@@ -47,6 +50,23 @@ import {
         e.preventDefault();
         resetMovieForm();
         modalAddEdit();
+    })
+
+    plotButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        let searchTitle = movieTitle.value.trim();
+        console.log(searchTitle);
+        getOmdbDataByTitle(searchTitle)
+            .then((omdbResponse) => {
+                console.log(omdbResponse);
+                if (omdbResponse?.Error || omdbResponse?.Response === "False") {
+                    appendAlert('Could not find movie!', 'danger');
+                    omdbResponse = null;
+                }
+                if (omdbResponse) {
+                    movieSummaryElement.value = omdbResponse.Plot;
+                }
+            })
     })
 
     let moviesContainerElement = document.querySelector("#rendered-movies");
@@ -490,6 +510,9 @@ import {
         }
 
         moviesContainerElement.innerHTML = "";
+        if(allMovies.length === 0) {
+            moviesContainerElement.innerHTML = "<h2 class='text-center'>Could not find any movies.</h2>";
+        }
 
         for (let i = 0; i < allMovies.length; i++) {
             moviesContainerElement.appendChild(renderMovie(allMovies[i]));

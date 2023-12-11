@@ -1,3 +1,5 @@
+"use strict";
+
 import OMDB_API_KEY from "./keys.js"
 
 let urlBase = `http://localhost:3000`;

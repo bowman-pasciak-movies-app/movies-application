@@ -66,7 +66,7 @@ import {
             .then((omdbResponse) => {
                 console.log(omdbResponse);
                 if (omdbResponse?.Error || omdbResponse?.Response === "False") {
-                    appendAlert('Could not find movie!', 'danger');
+                    appendAlert('Could not find movie!', 'danger', '#modal-messages');
                     omdbResponse = null;
                 }
                 if (omdbResponse) {
@@ -542,16 +542,26 @@ import {
     }
 
     const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
-    const appendAlert = (message, type) => {
+    const appendAlert = (message, type, optionalSelectorForLocation  = null) => {
         const wrapper = document.createElement('div')
         wrapper.innerHTML = [
             `<div class="alert alert-${type} alert-dismissible" role="alert">`,
             `   <div>${message}</div>`,
             '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
             '</div>'
-        ].join('')
+        ].join('');
 
-        alertPlaceholder.append(wrapper)
+        if (optionalSelectorForLocation) {
+            let elementLocation = document.querySelector(optionalSelectorForLocation);
+            if (!elementLocation) {
+                elementLocation.append(wrapper);
+            } else {
+                elementLocation.append(wrapper);
+            }
+        } else {
+            alertPlaceholder.append(wrapper);
+        }
+
     }
 
     updateShownMovies().then((result) => {

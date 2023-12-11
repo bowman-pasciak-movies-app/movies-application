@@ -62,6 +62,7 @@ import {
         e.preventDefault();
         let searchTitle = movieTitle.value.trim();
         console.log(searchTitle);
+        document.getElementById("modal-messages").innerHTML = "";
         getOmdbDataByTitle(searchTitle)
             .then((omdbResponse) => {
                 console.log(omdbResponse);
@@ -554,9 +555,9 @@ import {
         if (optionalSelectorForLocation) {
             let elementLocation = document.querySelector(optionalSelectorForLocation);
             if (!elementLocation) {
-                elementLocation.append(wrapper);
+                elementLocation.innerHTML = wrapper.innerHTML;
             } else {
-                elementLocation.append(wrapper);
+                elementLocation.innerHTML = wrapper.innerHTML;
             }
         } else {
             alertPlaceholder.append(wrapper);

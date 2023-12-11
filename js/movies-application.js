@@ -31,19 +31,25 @@ import {
     sortByTitleButton.addEventListener("click", function (e) {
         e.preventDefault();
         currentSortOrder = "title";
-        updateShownMovies();
+        updateShownMovies().then((result) => {
+            console.log("Update shown movies returned: " + result);
+        });
     });
 
     sortByRatingButton.addEventListener("click", function (e) {
         e.preventDefault();
         currentSortOrder = "rating";
-        updateShownMovies();
+        updateShownMovies().then((result) => {
+            console.log("Update shown movies returned: " + result);
+        });
     });
 
     sortByGenreButton.addEventListener("click", function (e) {
         e.preventDefault();
         currentSortOrder = "genre";
-        updateShownMovies();
+        updateShownMovies().then((result) => {
+            console.log("Update shown movies returned: " + result);
+        });
     });
 
     addMovieBtn.addEventListener("click", (e) => {
@@ -80,7 +86,9 @@ import {
         searchText = document.querySelector("#search-title").value;
         searchGenre = document.querySelector("#search-genre").value;
         searchRating = document.querySelector("#search-rating").value;
-        updateShownMovies();
+        updateShownMovies().then((result) => {
+            console.log("Update shown movies returned: " + result);
+        });
     })
 
     searchGenreElement.addEventListener("change", function (e) {
@@ -88,7 +96,9 @@ import {
         searchText = document.querySelector("#search-title").value;
         searchGenre = document.querySelector("#search-genre").value;
         searchRating = document.querySelector("#search-rating").value;
-        updateShownMovies();
+        updateShownMovies().then((result) => {
+            console.log("Update shown movies returned: " + result);
+        });
     })
 
     searchRatingElement.addEventListener("change", function (e) {
@@ -96,7 +106,9 @@ import {
         searchText = document.querySelector("#search-title").value;
         searchGenre = document.querySelector("#search-genre").value;
         searchRating = document.querySelector("#search-rating").value;
-        updateShownMovies();
+        updateShownMovies().then((result) => {
+            console.log("Update shown movies returned: " + result);
+        });
     })
 
     addMovieForm.addEventListener("submit", function (e) {
@@ -192,7 +204,9 @@ import {
         return updateMovieById(id, movie)
             .then(() => {
                 resetMovieForm();
-                updateShownMovies();
+                updateShownMovies().then((result) => {
+                    console.log("Update shown movies returned: " + result);
+                });
                 return true;
             })
             .catch(() => {
@@ -293,7 +307,9 @@ import {
         id = Number(id);
         return deleteMovieById(id)
             .then(() => {
-                updateShownMovies();
+                updateShownMovies().then((result) => {
+                    console.log("Update shown movies returned: " + result);
+                });
                 return true;
             })
             .catch(() => {
@@ -350,8 +366,10 @@ import {
         editMovieBtn.addEventListener("click", (e) => {
             e.preventDefault();
             resetMovieForm();
-            onEditMovie(movie.id);
-            modalAddEdit();
+            onEditMovie(movie.id).then((result) => {
+                console.log("Edit movie returned: " + result);
+                modalAddEdit();
+            });
         });
 
         deleteMovieBtn.addEventListener("click", (e) => {
@@ -362,9 +380,11 @@ import {
             btn.innerText = "Ok";
             btn.addEventListener("click", function (e) {
                 e.preventDefault();
-                onDeleteMovie(movie.id);
-                document.querySelector("#modal").classList.remove("show");
-                document.querySelector('#modal').removeAttribute("style");
+                onDeleteMovie(movie.id).then((result) => {
+                    console.log("Delete movie returned: " + result);
+                    document.querySelector("#modal").classList.remove("show");
+                    document.querySelector('#modal').removeAttribute("style");
+                });
             })
             elements.appendChild(btn);
             modal("Are you sure you want to delete this movie", movie.title, elements);
@@ -510,6 +530,7 @@ import {
         }
 
         moviesContainerElement.innerHTML = "";
+
         if(allMovies.length === 0) {
             moviesContainerElement.innerHTML = "<h2 class='text-center'>Could not find any movies.</h2>";
         }
@@ -533,6 +554,8 @@ import {
         alertPlaceholder.append(wrapper)
     }
 
-    updateShownMovies();
+    updateShownMovies().then((result) => {
+        console.log("Update shown movies returned: " + result);
+    });
 
 })();

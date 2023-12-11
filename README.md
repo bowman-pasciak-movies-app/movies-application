@@ -8,9 +8,13 @@
 
 ## Lessons Learned
 
-NOTE: When testing the server with VS Code and Live Web Server, We noticed page reloads after updating to the back end. At first, I though it was because of a flaw in our code, or a missing event.preventDefault. After a good amount of time relooking all the code, a search at Stack Overflow yielded the result. "I got to the bottom of this. It turns out that the problem was due to VS Live Server which was detecting a change in the folder and hot-loading the app. The change was due to the backend, in the same folder, saving a log. Really silly thing to miss..."
+NOTE: When testing the server with VS Code and Live Web Server, We noticed page reloads after updating to the back end.
+At first, I thought it was because of a flaw in our code, or a missing event.preventDefault. After a good amount of time
+relooking all the code, a search at Stack Overflow yielded the result. "I got to the bottom of this. It turns out that
+the problem was due to VS Live Server which was detecting a change in the folder and hot-loading the app. The change was
+due to the backend, in the same folder, saving a log. Really silly thing to miss..."
 
-### A globally installed npm package can be installed to run a local http web server that doesn't perform with the same reload due to file changes in the structure.
+### HTTP-SERVER : A globally installed npm package can be installed to run a local http web server that doesn't perform with the same reload due to file changes in the structure.
 
 ### npm package reference
 
@@ -31,7 +35,8 @@ NOTE: When testing the server with VS Code and Live Web Server, We noticed page 
 #### Instructions
 
 ​
-For each project aspect below, a grade of 0, 0.5, or 1 will be assigned. Each aspect represents 10% of the total possible grade.
+For each project aspect below, a grade of 0, 0.5, or 1 will be assigned. Each aspect represents 10% of the total
+possible grade.
 ​
 
 - **0** - mostly incomplete or not present

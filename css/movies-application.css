@@ -12,7 +12,6 @@ body {
     font-family: 'Rubik', sans-serif;
     font-size: 15px;
     background-image: linear-gradient(#b0b0b0, #101010);
-
 }
 
 #add-movie-form, #search-movie-form {
@@ -38,7 +37,6 @@ body {
     background-color: #9b0808;
 }
 
-
 .card {
     box-shadow: 5px 5px #3a3a3a;
 }
@@ -47,16 +45,9 @@ body {
     margin: 1em;
 }
 
-.loading {
-    text-align: center;
-    margin-top: 20px;
-    border: 2px solid red;
-}
-
 .modal-content {
     border: 5px solid #0a0a0a;
     padding: 5px;
-
 }
 
 .modal-dialog {
